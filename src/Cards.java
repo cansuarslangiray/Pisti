@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Cards {
     protected String symbol;
@@ -51,7 +52,7 @@ public class Cards {
                         index++;
                     }
                 }
-                else { // not need to check number because all the other number have same ponit.(1)
+                else { // not need to check number because all the other number have same point.(1)
                     Cards cards1 = new Cards(carsType[i], Integer.toString(j), 1);
                     cards[index] = cards1;
                     index++;
@@ -76,5 +77,13 @@ public class Cards {
         return oldCards;
     }
 
+    public Cards[] cut(Cards[] oldCards){
+        Random random = new Random();
+        int number = random.nextInt(10,30);// I decide to use 10 and 30 because i do not want to use any integare around beginning and end.
+        Cards[] newCards = new Cards[52];
+        System.arraycopy(oldCards,number,newCards,0,oldCards.length-number);
+        System.arraycopy(oldCards,0,newCards,oldCards.length-number,number);
+        return newCards;
+    }
 
  }

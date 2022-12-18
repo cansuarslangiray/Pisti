@@ -10,5 +10,10 @@ public  class Game {
         for(int i = 0; i< deck.length;i++){
             System.out.println(deck[i].symbol + deck[i].card);
         }
+        deck = cards.cut(deck);
+        System.out.println("---------------------------");
+        for(int i = 0; i< deck.length;i++){
+            System.out.println(deck[i].symbol + deck[i].card);
+        }
     }
 }
