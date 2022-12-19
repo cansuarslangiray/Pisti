@@ -86,4 +86,10 @@ public class Cards {
         return newCards;
     }
 
+    public Cards[] moveCards(Cards[] cards){
+        Cards[] newCards= new Cards[4];
+        System.arraycopy(cards,0,newCards,0,4);
+        return newCards;
+    }
+
  }
