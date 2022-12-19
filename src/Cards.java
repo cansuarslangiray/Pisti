@@ -77,9 +77,8 @@ public class Cards {
         return oldCards;
     }
 
-    public Cards[] cut(Cards[] oldCards){
+    public Cards[] cut(Cards[] oldCards,int number){
         Random random = new Random();
-        int number = random.nextInt(10,30);// I decide to use 10 and 30 because i do not want to use any integare around beginning and end.
         Cards[] newCards = new Cards[52];
         System.arraycopy(oldCards,number,newCards,0,oldCards.length-number);
         System.arraycopy(oldCards,0,newCards,oldCards.length-number,number);
@@ -89,6 +88,11 @@ public class Cards {
     public Cards[] moveCards(Cards[] cards){
         Cards[] newCards= new Cards[4];
         System.arraycopy(cards,0,newCards,0,4);
+        return newCards;
+    }
+    public Cards[] moveCardsFromDeck(Cards[] cards){
+        Cards[] newCards = new Cards[cards.length-4];
+        System.arraycopy(cards,4,newCards,0,newCards.length);
         return newCards;
     }
 
