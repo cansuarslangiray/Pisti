@@ -32,16 +32,32 @@ public  class Game {
                 System.out.println("please enter a number between 0 and 51");
             }
         }while (a);
-        System.out.println("now cards are dealt");
+        System.out.println("cards are dealt");
         playerHand = cards.moveCards(deck);
         deck = cards.moveCardsFromDeck(deck);
         computerHand = cards.moveCards(deck);
         deck = cards.moveCardsFromDeck(deck);
-        System.out.println("your cards are here: ");
-         for(int i = 0; i< playerHand.length;i++){
-            System.out.println(playerHand[i].symbol + playerHand[i].card);
-        }
-        System.out.println("-----------");
+
+        boolean canSeeHands = true;
+        do {
+            try {
+                System.out.println("if you want to see your hands, enter 'my hands'");
+                String hands = sc.nextLine();
+                if (hands.equalsIgnoreCase("my hands")) {
+                    System.out.println("your cards are here: ");
+                    for(int i = 0; i< playerHand.length;i++){
+                        System.out.println(playerHand[i].symbol + playerHand[i].card);
+                    }
+                    System.out.println("-----------");
+                    canSeeHands = false;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("please enter 'my hands'");
+            }
+        }while (canSeeHands);
+
+
 
 
 

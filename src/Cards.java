@@ -1,5 +1,5 @@
 import java.util.Random;
-import java.util.Scanner;
+
 
 public class Cards {
     protected String symbol;
@@ -78,7 +78,6 @@ public class Cards {
     }
 
     public Cards[] cut(Cards[] oldCards,int number){
-        Random random = new Random();
         Cards[] newCards = new Cards[52];
         System.arraycopy(oldCards,number,newCards,0,oldCards.length-number);
         System.arraycopy(oldCards,0,newCards,oldCards.length-number,number);
