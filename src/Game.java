@@ -37,12 +37,15 @@ public  class Game {
         deck = cards.moveCardsFromDeck(deck);
         computerHand = cards.moveCards(deck);
         deck = cards.moveCardsFromDeck(deck);
+        System.out.println();
+        System.out.println("-------------");
 
         boolean canSeeHands = true;
         do {
             try {
                 System.out.println("if you want to see your hands, enter 'my hands'");
                 String hands = sc.nextLine();
+                sc.nextLine();
                 if (hands.equalsIgnoreCase("my hands")) {
                     System.out.println("your cards are here: ");
                     for(int i = 0; i< playerHand.length;i++){
@@ -65,7 +68,9 @@ public  class Game {
     }
 
     public boolean isPişti(Cards cards ){
-        if(cards.equals(board[board.length-1])){
+        String[] arr = cards.card.split("");
+        String[] arr2 = board[board.length-1].card.split("");
+        if(arr[1].equalsIgnoreCase("j") || arr[1].equalsIgnoreCase(arr2[1])){
             return true;
         }
         return false;
@@ -75,7 +80,7 @@ public  class Game {
         int number = random.nextInt(0,computerHand.length-1);
         Cards card = computerHand[number];
         Cards[] newCard= new Cards[computerHand.length-1];
-        if(number!=computerHand.length-1) {
+        if(number!=computerHand.length-1 ) {
             System.arraycopy(computerHand, 0, newCard, 0, number - 1);
             System.arraycopy(computerHand, number + 1, newCard, number-1,computerHand.length );
         }
