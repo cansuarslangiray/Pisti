@@ -49,7 +49,7 @@ public  class Game {
         }
         System.out.println("-------------------------------");
         while (cards.checkDeck(deck)) {
-            if(playerHand.length==0 ||computerHand.length==0) {
+            if(playerHand.length==0 && computerHand.length==0) {
                 playerHand = cards.moveCards(deck);
                 deck = cards.moveCardsFromDeck(deck);
                 computerHand = cards.moveCards(deck);
@@ -59,6 +59,13 @@ public  class Game {
             playPlayer();
             playComputer();
         }
+        while (!cards.checkDeck(deck) && computerHand!=null){
+            System.out.println("the last round ın thıs game");
+            printBoard();
+            playPlayer();
+            playComputer();
+        }
+        System.out.println("now game is end");
     }
 
     public void printBoard() {
@@ -67,7 +74,7 @@ public  class Game {
         System.out.println("----------------");
         if (board != null) {
             System.out.println(board[board.length - 1].symbol + board[board.length - 1].card);
-            for (int i = board.length-1; i >=0; i--) {
+            for (int i = board.length-2; i >=0; i--) {
                 System.out.print(board[i].symbol + board[i].card + "\t");
             }
             System.out.println();
@@ -83,10 +90,11 @@ public  class Game {
         return false;
     }
     public void playComputer(){
+        System.out.println("the computer is playing now...");
         Random random = new Random();
-        int number = 0;
+        int number = random.nextInt(computerHand.length);
         Cards card = computerHand[number];
-        Cards[] newCard= new Cards[computerHand.length-1];
+        Cards[] newCard = new Cards[computerHand.length - 1];
         if(isPişti(card)){
             System.out.println("computer did pişti...");
             computerSore+=10;
@@ -95,30 +103,42 @@ public  class Game {
             board = null;
         }
         else{
-            Cards[] newBoards = new Cards[board.length+1];
-            System.arraycopy(board,0,newBoards,0,board.length);
-            newBoards[board.length]=card;
-            board = newBoards;
+            if(board==null){
+                board = new Cards[1];
+                board[0] = card;
+            }
+            else {
+                Cards[] newBoards = new Cards[board.length + 1];
+                System.arraycopy(board, 0, newBoards, 0, board.length);
+                newBoards[board.length] = card;
+                board = newBoards;
+            }
         }
-        if(computerHand.length>1) {
+        if(computerHand!=null) {
             if (number == 0) {
                 System.arraycopy(computerHand, 1, newCard, 0, computerHand.length - 1);
-            } else if (number < computerHand.length - 1) {
-                System.arraycopy(computerHand, 0, newCard, 0, number - 1);
-                System.arraycopy(computerHand, number, newCard, number, computerHand.length - 1);
+            } else if (number==1) {
+              newCard[0]=computerHand[0];
+                if (computerHand.length - 2 >= 0)
+                    System.arraycopy(computerHand, 2, newCard, 1, computerHand.length - 2);
 
-            } else {
+            } else if(number==2){
+                System.arraycopy(computerHand, 0, newCard, 0, number);
+                newCard[number]=computerHand[computerHand.length-1];
+            }
+            else {
                 System.arraycopy(computerHand, 0, newCard, 0, computerHand.length - 1);
 
                 }
                 computerHand = newCard;
                 System.out.println("--------------- new computer hand");
-                for (int i = 0; i < computerHand.length; i++) {
-                    System.out.println(computerHand[i].symbol + computerHand[i].card);
+            for (Cards value : computerHand) {
+                System.out.println(value.symbol + value.card);
             }
 
         }
-        if(computerHand.length==1){
+
+        if(computerHand==null){
             System.out.println("computer hand is empty");
             computerHand =null;
         }
@@ -168,76 +188,70 @@ public  class Game {
 
     }
     public boolean checkTheCard(String[] cardToPlay) {
-        Cards[] newCard = new Cards[playerHand.length - 1];
-        if (cardToPlay[0].equalsIgnoreCase("Spades")) {
-            cardToPlay[0] = "♤";
-        } else if (cardToPlay[0].equalsIgnoreCase("Hearts")) {
-            cardToPlay[0] = "♡";
-        } else if (cardToPlay[0].equalsIgnoreCase("Diamonds")) {
-            cardToPlay[0] = "♢";
-        } else if (cardToPlay[0].equalsIgnoreCase("Clubs")) {
-            cardToPlay[0] = "♧";
-        }
+        if(cardToPlay.length==2) {
+            Cards[] newCard = new Cards[playerHand.length - 1];
+            if (cardToPlay[0].equalsIgnoreCase("Spades")) {
+                cardToPlay[0] = "♤";
+            } else if (cardToPlay[0].equalsIgnoreCase("Hearts")) {
+                cardToPlay[0] = "♡";
+            } else if (cardToPlay[0].equalsIgnoreCase("Diamonds")) {
+                cardToPlay[0] = "♢";
+            } else if (cardToPlay[0].equalsIgnoreCase("Clubs")) {
+                cardToPlay[0] = "♧";
+            }else{
+                return false;
+            }
 
-        for (int i = 0; i < playerHand.length; i++) {
-            if (playerHand[i].symbol.equalsIgnoreCase(cardToPlay[0]) && playerHand[i].card.equalsIgnoreCase(cardToPlay[1])) {
-                System.out.println("your card secessfuly selected");
-                if (isPişti(playerHand[i])) {
-                    System.out.println("you did pişti...");
-                    playerScore += 10;
-                    System.arraycopy(board, 0, player, 0, board.length);
-                    player[board.length] = playerHand[i];
-                    board = null;
-                    if(playerHand.length==1){
-                        System.out.println("hand is empty...");
-                        playerHand=null;
-                    }
-                }
-                if(!isPişti(playerHand[i])){
-                    if(board!=null) {
-                        Cards[] newBoards = new Cards[board.length + 1];
-                        System.arraycopy(board, 0, newBoards, 0, board.length);
-                        newBoards[board.length] = playerHand[i];
-                        board = newBoards;
-                    }
-                    else{
-                        board= new Cards[1];
-                        board[0] = playerHand[i];
-                    }
-                }
-                while (playerHand.length > 1) {
-                    if (i==0) {
-                        System.arraycopy(playerHand, 1, newCard, 0, playerHand.length - 1);
-                        playerHand = newCard;
-                        System.out.println("------------------------ player new hand");
-                        for (int j = 0; j < playerHand.length; j++) {
-                            System.out.println(playerHand[j].symbol + playerHand[j].card);
+            for (int i = 0; i < playerHand.length; i++) {
+                if (playerHand[i].symbol.equalsIgnoreCase(cardToPlay[0]) && playerHand[i].card.equalsIgnoreCase(cardToPlay[1])) {
+                    System.out.println("your card secessfuly selected");
+                    if (isPişti(playerHand[i])) {
+                        System.out.println("you did pişti...");
+                        playerScore += 10;
+                        System.arraycopy(board, 0, player, 0, board.length);
+                        player[board.length] = playerHand[i];
+                        board = null;
+                        if (playerHand.length == 1) {
+                            System.out.println("hand is empty...");
+                            playerHand = null;
                         }
-                        break;
-                    } else if (i < playerHand.length - 1) {
-                        System.arraycopy(playerHand, 0, newCard, 0, i - 1);
-                        System.arraycopy(playerHand, i, newCard, i, playerHand.length - 1);
-                        playerHand = newCard;
-                        System.out.println("------------------------ player new hand");
-                        for (int j = 0; j < playerHand.length; j++) {
-                            System.out.println(playerHand[j].symbol + playerHand[j].card);
-                        }
-                        break;
                     } else {
-                        System.arraycopy(playerHand, 0, newCard, 0, playerHand.length - 1);
+                        if (board != null) {
+                            Cards[] newBoards = new Cards[board.length + 1];
+                            System.arraycopy(board, 0, newBoards, 0, board.length);
+                            newBoards[board.length] = playerHand[i];
+                            board = newBoards;
+                        } else {
+                            board = new Cards[1];
+                            board[0] = playerHand[i];
+                        }
+                    }
+                    if (playerHand != null) {
+                        if (i == 0) {
+                            System.arraycopy(playerHand, 1, newCard, 0, playerHand.length - 1);
+                        } else if (i== 1) {// bak
+                            newCard[0]=playerHand[0];
+                            if (playerHand.length - 2 >= 0)
+                                System.arraycopy(playerHand, 2, newCard, 1, playerHand.length - 2);
+                        } else if(i==2){
+                            System.arraycopy(playerHand, 0, newCard, 0, i);
+                            newCard[i]=playerHand[playerHand.length-1];
+                        }
+                        else {
+                            System.arraycopy(playerHand, 0, newCard, 0, playerHand.length - 1);
+                        }
+
                         playerHand = newCard;
                         System.out.println("------------------------ player new hand");
-                        for (int j = 0; j < playerHand.length; j++) {
-                            System.out.println(playerHand[j].symbol + playerHand[j].card);
-                        }break;
+                        for (Cards value : playerHand) {
+                            System.out.println(value.symbol + value.card);
+                        }
                     }
 
+                    return true;
                 }
-
-                return true;
             }
         }
-        System.out.println("it's the other player's turn to play...");
         return false;
     }
     public void beginningParts(){
