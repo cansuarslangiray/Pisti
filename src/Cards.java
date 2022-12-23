@@ -95,4 +95,7 @@ public class Cards {
         return newCards;
     }
 
+    public boolean checkDeck(Cards[] deck){
+        return deck.length>0;
+    }
  }
