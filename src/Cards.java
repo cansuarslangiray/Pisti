@@ -5,15 +5,16 @@ public class Cards {
     protected String symbol;
     protected int point;
     protected String card;
-
+    // Cards constructor
     public Cards(String symbol, String card, int point){
         this.symbol = symbol;
         this.point = point;
         this.card = card;
     }
+    // empty cards constructor
     public Cards(){
     }
-
+    // create deck and the deck has 52 cards which have 4 type and each type have 13 different cards.
     public Cards[] createDeck(){
         Cards[] cards = new Cards[52];
         String[] carsType= {"♤","♡","♢","♧"};
@@ -61,12 +62,12 @@ public class Cards {
         }
         return cards;
     }
-
+    // cards are
     public Cards[] shuffle(Cards[] oldCards){
         Random random = new Random();
         int index = oldCards.length;
         int current = 0;
-        while (current< oldCards.length/2) { // diveded by 2 because we change random number and index. index is decreasing.
+        while (current< oldCards.length) {
                 int newIndex = random.nextInt(0, index);// pick a random number between index and 0.
                 Cards temp = oldCards[index-1];
                 oldCards[index-1] = oldCards[newIndex];
@@ -91,7 +92,7 @@ public class Cards {
     }
     public Cards[] moveCardsFromDeck(Cards[] cards){
         Cards[] newCards = new Cards[cards.length-4];
-        System.arraycopy(cards,4,newCards,0,newCards.length);
+        System.arraycopy(cards, 4, newCards, 0, cards.length - 4);
         return newCards;
     }
 
