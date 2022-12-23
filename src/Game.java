@@ -29,6 +29,7 @@ public  class Game {
 
             } catch (InputMismatchException e) {
                 System.out.println("please enter your name: ");
+                sc.next();
             }
         }while (nameIsCorrect);
         player = new Player(name);
@@ -36,7 +37,6 @@ public  class Game {
         System.out.println("and now, you can cut the deck. ");
         boolean a = true;
         do {
-
             try {
                 System.out.println("please enter a number between 1 and 52 ");
                 int number = sc.nextInt();
@@ -46,31 +46,32 @@ public  class Game {
                 }
                 else{
                     System.out.println("please enter a number between 0 and 51 (not including 1 and 52)");
-                    break;
                 }
-
             } catch (InputMismatchException e) {
                 System.out.println("please enter a number between 0 and 51 ( not including 1 and 52)");
+                sc.next();
             }
         }while (a);
+
         System.out.println("cards are dealt");
         for(int i=0;i<4;i++){
-            player.playerHand[i]=deck[i];
-            computer.playerHand[i]=deck[i+1];
+                player.playerHand[i] = deck[i*2];
+                computer.playerHand[i] = deck[(i * 2) + 1];
+
         }
         deck = cards.moveCardsFromDeck(deck);
         deck = cards.moveCardsFromDeck(deck);
         board = cards.moveCards(deck);
         deck = cards.moveCardsFromDeck(deck);
-        System.out.println("ilk başta comuter: ");
-        System.out.println("-------------------");
-        computer.printHand();
-        System.out.println("-------------------------------");
         while (cards.checkDeck(deck)) {
             if(player.playerHand.length==0 && computer.playerHand.length==0) {
+                System.out.println("cards are dealt again");
+                player.playerHand = new Cards[4];
+                computer.playerHand = new Cards[4];
                 for(int i=0;i<4;i++){
-                    player.playerHand[i]=deck[i];
-                    computer.playerHand[i]=deck[i+1];
+                        player.playerHand[i] = deck[i*2];
+                        computer.playerHand[i] = deck[(i * 2) + 1];
+
                 }
                 deck = cards.moveCardsFromDeck(deck);
                 deck = cards.moveCardsFromDeck(deck);
@@ -79,19 +80,31 @@ public  class Game {
             playPlayer();
             playComputer();
         }
-        while (!cards.checkDeck(deck) && computer.playerHand!=null){
-            System.out.println("the last round ın thıs game");
+        while (!cards.checkDeck(deck) && computer.playerHand.length!=0 && player.playerHand.length!=0){
+            System.out.println("the last round in thıs game");
             printBoard();
             playPlayer();
             playComputer();
         }
-        System.out.println("now game is end");
+        if(computer.playerHand.length==0 && player.playerHand.length==0) {
+            printBoard();
+            System.out.println("now game is end");
+            System.out.println("game winner is......");
+            if (computer.score > player.score) {
+                System.out.println(computer.name);
+            } else if (computer.score == player.score) {
+                System.out.println("there is no winner in this game");
+                System.out.println("tied");
+            } else {
+                System.out.println(player.name);
+            }
+
+        }
     }
 
     public void printBoard() {
         System.out.println("the top card in the first row, the others show the bottom cards");
         System.out.println("cards on the table....");
-        System.out.println("----------------");
         if (board != null) {
             System.out.println(board[board.length - 1].symbol + board[board.length - 1].card);
             for (int i = board.length-2; i >=0; i--) {
@@ -115,15 +128,13 @@ public  class Game {
         int number = random.nextInt(computer.playerHand.length);
         Cards card = computer.playerHand[number];
         Cards[] newCard = new Cards[computer.playerHand.length - 1];
+        System.out.println("computer played " + card.symbol+card.card);
         if(isPişti(card)){
             System.out.println("computer did pişti...");
             computer.score+=10;
             computer.playerTable = new Cards[board.length+1];
             System.arraycopy(board,0,computer.playerTable,0,board.length);
             computer.playerTable[board.length]= card;
-            System.out.println("------------------------");
-            System.out.println(" computer table is ");
-            computer.printTable();
             board = null;
         }
         else{
@@ -154,9 +165,6 @@ public  class Game {
 
                 }
             computer.playerHand = newCard;
-            System.out.println("computer new hand is ");
-            System.out.println("---------------");
-            computer.printHand();
 
         }
 
@@ -226,7 +234,6 @@ public  class Game {
 
             for (int i = 0; i < player.playerHand.length; i++) {
                 if (player.playerHand[i].symbol.equalsIgnoreCase(cardToPlay[0]) && player.playerHand[i].card.equalsIgnoreCase(cardToPlay[1])) {
-                    System.out.println("your card secessfuly selected");
                     if (isPişti(player.playerHand[i])) {
                         System.out.println("you did pişti...");
                         player.score += 10;
@@ -235,10 +242,6 @@ public  class Game {
                         player.playerTable[board.length] = player.playerHand[i];
                         board = null;
                         System.out.println("-------------------");
-                        System.out.println("player table is ");
-                        player.printTable();
-                        System.out.println();
-                        System.out.println("-----------------------");
                     } else {
                         if (board != null) {
                             Cards[] newBoards = new Cards[board.length + 1];
@@ -265,8 +268,6 @@ public  class Game {
                         }
 
                         player.playerHand = newCard;
-                        System.out.println("------------------------ player new hand");
-                        player.printHand();
                     }
 
                     return true;

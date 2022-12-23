@@ -80,14 +80,16 @@ public class Cards {
 
     public Cards[] cut(Cards[] oldCards,int number){
         Cards[] newCards = new Cards[52];
-        System.arraycopy(oldCards,number,newCards,0,oldCards.length-number);
-        System.arraycopy(oldCards,0,newCards,oldCards.length-number,number);
+        if (oldCards.length - number >= 0)
+            System.arraycopy(oldCards, number, newCards, number - number, oldCards.length - number);
+        if (number >= 0) System.arraycopy(oldCards, 0, newCards, oldCards.length - number + 0, number);
+
         return newCards;
     }
 
     public Cards[] moveCards(Cards[] cards){
         Cards[] newCards= new Cards[4];
-        System.arraycopy(cards,0,newCards,0,4);
+        System.arraycopy(cards, 0, newCards, 0, 4);
         return newCards;
     }
     public Cards[] moveCardsFromDeck(Cards[] cards){
