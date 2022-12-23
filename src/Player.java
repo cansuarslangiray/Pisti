@@ -22,8 +22,8 @@ public class Player {
         }
     }
     public int calculateScore(){ // get the sum of the points of the cards that the player has collected and the points of the pisti the player has made.
-        for(int i = 0 ; i<playerTable.length;i++){
-            score+=playerTable[i].point;
+        for (Cards cards : playerTable) {
+            score += cards.point;
         }
         return score;
     }

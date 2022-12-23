@@ -62,22 +62,22 @@ public class Cards {
         }
         return cards;
     }
-    // cards are
+
     public Cards[] shuffle(Cards[] oldCards){
         Random random = new Random();
         int index = oldCards.length;
         int current = 0;
         while (current< oldCards.length) {
                 int newIndex = random.nextInt(0, index);// pick a random number between index and 0.
-                Cards temp = oldCards[index-1];
-                oldCards[index-1] = oldCards[newIndex];
+                Cards temp = oldCards[index-1];// temp is equal to last shifted one by one.
+                oldCards[index-1] = oldCards[newIndex];// replace to shifted object with the object that has the index of newIndex.
                 oldCards[newIndex] = temp;
-                index--;
+                index--;// each loop index is decremented
                 current++;
         }
         return oldCards;
     }
-
+    //split the deck from the given number and places below part on the top part and returns new array.
     public Cards[] cut(Cards[] oldCards,int number){
         Cards[] newCards = new Cards[52];
         if (oldCards.length - number >= 0)
@@ -86,18 +86,19 @@ public class Cards {
 
         return newCards;
     }
-
+    // pick first 4 cards from the given cards and returns.
     public Cards[] moveCards(Cards[] cards){
         Cards[] newCards= new Cards[4];
         System.arraycopy(cards, 0, newCards, 0, 4);
         return newCards;
     }
+    // remove the first 4 card from the given cards.
     public Cards[] moveCardsFromDeck(Cards[] cards){
         Cards[] newCards = new Cards[cards.length-4];
         System.arraycopy(cards, 4, newCards, 0, cards.length - 4);
         return newCards;
     }
-
+    // check the deck is null or not.
     public boolean checkDeck(Cards[] deck){
         return deck.length>0;
     }

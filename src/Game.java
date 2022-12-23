@@ -8,6 +8,7 @@ public  class Game {
     Player player;
     Player computer;
     Scanner sc = new Scanner(System.in);
+    // empty game constructor
     public Game(){
     }
     Cards cards = new Cards();
