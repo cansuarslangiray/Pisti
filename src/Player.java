@@ -7,7 +7,7 @@ public class Player {
     protected int score;
     public Player(String name) {
         this.name = name;
-        this.playerTable = new Cards[1];
+        this.playerTable= new Cards[1];
         this.playerHand = new Cards[4];
         this.score = 0;
     }

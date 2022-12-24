@@ -16,17 +16,15 @@ public  class Game {
 
     public void play(){
         computer = new Player("computer" + computerNumber);
-        deck = cards.shuffle(deck);
+        deck = cards.shuffle(deck);// shuffle deck
         beginningParts();
         String name = null;
         boolean nameIsCorrect= true;
         do {
-
             try {
                 System.out.println("please enter your name: ");
                 name = sc.nextLine();
                     nameIsCorrect= false;
-
 
             } catch (InputMismatchException e) {
                 System.out.println("please enter your name: ");
@@ -42,7 +40,7 @@ public  class Game {
                 System.out.println("please enter a number between 1 and 52 ");
                 int number = sc.nextInt();
                 if (number>=0 && number<=51) {
-                    deck = cards.cut(deck,number);
+                    deck = cards.cut(deck,number);// cut the deck
                     a = false;
                 }
                 else{
@@ -53,42 +51,48 @@ public  class Game {
                 sc.next();
             }
         }while (a);
-
         System.out.println("cards are dealt");
-        for(int i=0;i<4;i++){
-                player.playerHand[i] = deck[i*2];
-                computer.playerHand[i] = deck[(i * 2) + 1];
-
+        for(int i=0;i<4;i++){// cards are given to players by one by.
+                player.playerHand[i] = deck[i*2];//(0-2-4-6)
+                computer.playerHand[i] = deck[(i * 2) + 1];//(1-3-5-7)
         }
         deck = cards.moveCardsFromDeck(deck);
         deck = cards.moveCardsFromDeck(deck);
         board = cards.moveCards(deck);
         deck = cards.moveCardsFromDeck(deck);
-        while (cards.checkDeck(deck)) {
-            if(player.playerHand.length==0 && computer.playerHand.length==0) {
+        while (cards.checkDeck(deck)) {//loop  if deck is not empty.
+            if(player.playerHand.length==0 && computer.playerHand.length==0) {// check player hand and computer hand are empty or not
                 System.out.println("cards are dealt again");
                 player.playerHand = new Cards[4];
                 computer.playerHand = new Cards[4];
-                for(int i=0;i<4;i++){
-                        player.playerHand[i] = deck[i*2];
-                        computer.playerHand[i] = deck[(i * 2) + 1];
-
+                for(int i=0;i<4;i++){// cards are given to players by one by.
+                        player.playerHand[i] = deck[i*2];//(0-2-4-6)
+                        computer.playerHand[i] = deck[(i * 2) + 1];//(1-3-5-7)
                 }
-                deck = cards.moveCardsFromDeck(deck);
-                deck = cards.moveCardsFromDeck(deck);
+                deck = cards.moveCardsFromDeck(deck);// remove the cards from deck
+                deck = cards.moveCardsFromDeck(deck);// remove the cards from deck
             }
             printBoard();
             playPlayer();
             playComputer();
         }
+
         while (!cards.checkDeck(deck) && computer.playerHand.length!=0 && player.playerHand.length!=0){
-            System.out.println("the last round in thıs game");
             printBoard();
             playPlayer();
             playComputer();
+            if(player.playerHand.length==1 || computer.playerHand.length==1){
+                System.out.println("the last round in thıs game");
+            }
         }
-        if(computer.playerHand.length==0 && player.playerHand.length==0) {
+        if(computer.playerHand.length==0 && player.playerHand.length==0) {// check the all player's deck are empty ot not
             printBoard();
+            System.out.println("computer table.....................");
+            computer.printTable();
+            System.out.println("-------------------------\n");
+            System.out.println("player table.....................");
+            player.printTable();
+            System.out.println("-------------------------\n");
             System.out.println("now game is end");
             System.out.println("game winner is......");
             if (computer.score > player.score) {
@@ -102,14 +106,14 @@ public  class Game {
 
         }
     }
-
+    // print all the objects of board.
     public void printBoard() {
         System.out.println("the top card in the first row, the others show the bottom cards");
         System.out.println("cards on the table....");
         if (board != null) {
-            System.out.println(board[board.length - 1].symbol + board[board.length - 1].card);
+            System.out.println(board[board.length - 1].symbol + board[board.length - 1].card);// print the last object of the board.
             for (int i = board.length-2; i >=0; i--) {
-                System.out.print(board[i].symbol + board[i].card + "\t");
+                System.out.print(board[i].symbol + board[i].card + "\t");// print the other board's object.
             }
             System.out.println();
         }
@@ -117,6 +121,7 @@ public  class Game {
             System.out.println("table is empty now...");
         }
     }
+    // check the card has J or the given card's value same as on the board.
     public boolean isPişti(Cards cards ){
         if(board!=null) {
             return cards.card.equalsIgnoreCase("J") || board[board.length - 1].card.equalsIgnoreCase(cards.card) ;
@@ -128,18 +133,29 @@ public  class Game {
         Random random = new Random();
         int number = random.nextInt(computer.playerHand.length);
         Cards card = computer.playerHand[number];
-        Cards[] newCard = new Cards[computer.playerHand.length - 1];
-        System.out.println("computer played " + card.symbol+card.card);
+        Cards[] newCard = new Cards[computer.playerHand.length - 1];// crate new cards array and size is decremented because one card played.
+        System.out.println("computer played " + card.symbol+card.card);// print the card which are played by computer.
         if(isPişti(card)){
             System.out.println("computer did pişti...");
             computer.score+=10;
-            computer.playerTable = new Cards[board.length+1];
-            System.arraycopy(board,0,computer.playerTable,0,board.length);
-            computer.playerTable[board.length]= card;
+
+            if(computer.playerTable.length==1){// check the computer table length one or not.
+                computer.playerTable = new Cards[board.length+1];// create new cards array and change the size according to board's size(now computer.playerTable is equal to new array)
+                System.arraycopy(board,0,computer.playerTable,0,board.length);//added the all card on the board in computer player table.
+            }else{
+                int oldIndex=computer.playerTable.length;
+                Cards[] old = new Cards[oldIndex];// create new cards array
+                System.arraycopy(computer.playerTable,0,old,0,computer.playerTable.length);//added the all cards on the computer.playerTable in old array.
+                computer.playerTable = new Cards[board.length+computer.playerTable.length+1];// now computer.playerTable is equal to new array(added an extra one because the played card will also be taken)
+                System.arraycopy(old,0,computer.playerTable,0,old.length);// added the all cards on the old in computer player table.
+                System.arraycopy(board,0,computer.playerTable,oldIndex,board.length);// added the all cards on the board in computer player table.
+            }
+
+            computer.playerTable[computer.playerTable.length-1]= card;
             board = null;
         }
         else{
-            if(board==null){
+            if(board==null){// check board is null or not
                 board = new Cards[1];
                 board[0] = card;
             }
@@ -150,6 +166,7 @@ public  class Game {
                 board = newBoards;
             }
         }
+        //all index except last index which index's cards played in the game remove from array and other cards index are decremented.
         if(computer.playerHand!=null) {
             if (number == 0) {
                 System.arraycopy(computer.playerHand, 1, newCard, 0, computer.playerHand.length - 1);
@@ -161,7 +178,7 @@ public  class Game {
                 System.arraycopy(computer.playerHand, 0, newCard, 0, number);
                 newCard[number]=computer.playerHand[computer.playerHand.length-1];
             }
-            else {
+            else {//last index's cards remove from array.
                 System.arraycopy(computer.playerHand, 0, newCard, 0, computer.playerHand.length - 1);
 
                 }
@@ -169,10 +186,6 @@ public  class Game {
 
         }
 
-        if(computer.playerHand==null){
-            System.out.println("computer hand is empty");
-            computer.playerHand =null;
-        }
     }
 
     public void playPlayer(){
@@ -184,9 +197,7 @@ public  class Game {
                 if (hands.equalsIgnoreCase("my hand")) {
                     System.out.println("your cards are here... ");
                     System.out.println("-----------");
-                    for (Cards value : player.playerHand) {
-                        System.out.println(value.symbol + value.card);
-                    }
+                    player.printHand();
                     System.out.println("-----------");
                     canSeeHands = false;
                 }else{
@@ -221,6 +232,7 @@ public  class Game {
     public boolean checkTheCard(String[] cardToPlay) {
         if(cardToPlay.length==2) {
             Cards[] newCard = new Cards[player.playerHand.length - 1];
+            // turns the type given as a word into a symbol
             if (cardToPlay[0].equalsIgnoreCase("Spades")) {
                 cardToPlay[0] = "♤";
             } else if (cardToPlay[0].equalsIgnoreCase("Hearts")) {
@@ -238,9 +250,19 @@ public  class Game {
                     if (isPişti(player.playerHand[i])) {
                         System.out.println("you did pişti...");
                         player.score += 10;
-                        player.playerTable = new Cards[board.length+1];
-                        System.arraycopy(board, 0, player.playerTable, 0, board.length);
-                        player.playerTable[board.length] = player.playerHand[i];
+
+                        if(player.playerTable.length==1){
+                            player.playerTable= new Cards[board.length+1];
+                            System.arraycopy(board, 0, player.playerTable, 0, board.length); //added the all card on the board in player's player table.
+                        }else{
+                            int oldIndex=player.playerTable.length;
+                            Cards[] old = new Cards[oldIndex];//create new cards array and change the size according to board's size(now player.playerTable is equal to new array)
+                            System.arraycopy(player.playerTable,0,old,0,player.playerTable.length);
+                            player.playerTable= new Cards[player.playerTable.length+board.length+1];// now player.playerTable is equal to new array(added an extra one because the played card will also be taken)
+                            System.arraycopy(old,0,player.playerTable,0,old.length);// added the all cards on the old in player table.
+                            System.arraycopy(board, 0, player.playerTable, oldIndex, board.length); //added the all card on the board in player's player table.
+                        }
+                        player.playerTable[player.playerTable.length-1] = player.playerHand[i];
                         board = null;
                         System.out.println("-------------------");
                     } else {
@@ -254,6 +276,7 @@ public  class Game {
                             board[0] = player.playerHand[i];
                         }
                     }
+                    //all index except last index which index's cards played in the game remove from array and other cards index are decremented.
                     if (player.playerHand != null) {
                         if (i == 0) {
                             System.arraycopy(player.playerHand, 1, newCard, 0, player.playerHand.length - 1);
@@ -264,7 +287,7 @@ public  class Game {
                             System.arraycopy(player.playerHand, 0, newCard, 0, i);
                             newCard[i]=player.playerHand[player.playerHand.length-1];
                         }
-                        else {
+                        else {//last index's cards remove from array.
                             System.arraycopy(player.playerHand, 0, newCard, 0, player.playerHand.length - 1);
                         }
 
@@ -277,6 +300,7 @@ public  class Game {
         }
         return false;
     }
+    // some introduction lines.
     public void beginningParts(){
         System.out.println("welcome the game :) ");
         System.out.println("before the start game. we will tell some rules");
