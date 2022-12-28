@@ -1,4 +1,8 @@
 import java.io.*;
+import java.nio.file.Paths;
+import java.security.PublicKey;
+import java.util.Formatter;
+import java.util.Scanner;
 
 public class Player {
     protected String name;
@@ -27,30 +31,63 @@ public class Player {
         }
         return score;
     }
-    public void score() {
-        try {
-            File file = new File("score.txt");
-            if (!file.exists()) {
-                file.createNewFile();
+    public static void readText(){
+        Scanner sc = null;
+        try{
+            sc = new Scanner(Paths.get("score.txt"));
+            int i = 0;
+            sc.nextLine();
+            while (sc.hasNextLine()){
+                String input = sc.nextLine();
+                String[] playerData =input.split(",");
+                Player player = new Player(playerData[0]);
+                player.score = Integer.parseInt(playerData[1]);
+                Game.scoreList[i] = player;
+                i++;
             }
-            String playersScores = "high score list "+"\n";
-            FileWriter fWriter = new FileWriter(file, false);
-            BufferedWriter bWriter = new BufferedWriter(fWriter);
-            bWriter.write(playersScores);
-
-            bWriter.close();
-            FileReader fReader = new FileReader(file);
-            String line;
-            BufferedReader bReader = new BufferedReader(fReader);
-            while ((line = bReader.readLine()) != null) {
-                System.out.println(line);
-            }
-            bWriter.close();
-
-        }
-        catch (IOException e){
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    public static void writeText(Player player){
+        Formatter f = null;
+        if (Game.scoreList[9].score < player.score){
+            Game.scoreList[9] = player;
+            int n = Game.scoreList.length;
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = 0; j < n - i - 1; j++) {
+                    if (Game.scoreList[j].score < Game.scoreList[j + 1].score) {
+                        // swap arr[j+1] and arr[j]
+                        Player temp = Game.scoreList[j];
+                        Game.scoreList[j] = Game.scoreList[j + 1];
+                        Game.scoreList[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        try{
+            f = new Formatter("score.txt");
+            f.format("player's name:,score:");
+            for(int i=0;i<10;i++){
+                f.format("\n" + "%s,%s", Game.scoreList[i].name, Game.scoreList[i].score);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            if(f!=null){
+                f.close();
+            }
+        }
+    }
+
+    public static void displayScoreboard(){
+        System.out.println("------------ Scoreboard -----------------");
+        for (int i = 0; i < 10; i++) {
+            System.out.println((i + 1) + ". " + Game.scoreList[i].name + "\tScore: " + Game.scoreList[i].score);
+        }
+    }
+
 }
 

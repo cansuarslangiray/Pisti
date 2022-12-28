@@ -1,0 +1,11 @@
+player's name:,score:
+emilia,148
+yıldız,90
+Cansu,50
+deniz,40
+-,0
+-,0
+-,0
+-,0
+-,0
+-,0

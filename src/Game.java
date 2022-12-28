@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public  class Game {
     static int computerNumber=1;
+    public static Player[] scoreList = new Player[10];
     Cards[] board;
     Player player;
     Player computer;
@@ -15,6 +16,7 @@ public  class Game {
     Cards[] deck = cards.createDeck() ;
 
     public void play(){
+        Player.readText();
         computer = new Player("computer" + computerNumber);
         deck = cards.shuffle(deck);// shuffle deck
         beginningParts();
@@ -89,21 +91,20 @@ public  class Game {
             printBoard();
             System.out.println("computer table.....................");
             computer.printTable();
-            System.out.println("-------------------------\n");
+            System.out.println();
             System.out.println("player table.....................");
             player.printTable();
-            System.out.println("-------------------------\n");
             System.out.println("now game is end");
             System.out.println("game winner is......");
-            if (computer.score > player.score) {
+            if (computer.calculateScore() > player.calculateScore()) {
                 System.out.println(computer.name);
-            } else if (computer.score == player.score) {
+            } else if (computer.calculateScore()== player.calculateScore()) {
                 System.out.println("there is no winner in this game");
                 System.out.println("tied");
             } else {
                 System.out.println(player.name);
             }
-
+            Player.writeText(player);
         }
     }
     // print all the objects of board.
@@ -305,8 +306,8 @@ public  class Game {
         System.out.println("welcome the game :) ");
         System.out.println("before the start game. we will tell some rules");
         System.out.println("firstly, each player has 4 cards and 4 cards in the board but all player only see last card.");
-        System.out.println("we decide to who start ");
-        System.out.println("and then you check your card and try to find same card in the board");
+        System.out.println("First player start the game");
+        System.out.println("and then you check your card and try to find same card's value in the board");
         System.out.println("if your card and board ara match you do pişti and you gain 10 puan. ");
         System.out.println("if you do not the same card you have to add other card which you want.");
         System.out.println("let's get start. you can learn while we playing");
