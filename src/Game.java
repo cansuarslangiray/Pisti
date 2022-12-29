@@ -5,7 +5,7 @@ import java.util.Scanner;
 public  class Game {
     static int computerNumber=1;
     public static Player[] scoreList = new Player[10];
-    Cards[] board;
+    Cards[] board = new Cards[4];
     Player player;
     Player computer;
     Scanner sc = new Scanner(System.in);
@@ -55,12 +55,12 @@ public  class Game {
         }while (a);
         System.out.println("cards are dealt");
         for(int i=0;i<4;i++){// cards are given to players by one by.
-                player.playerHand[i] = deck[i*2];//(0-2-4-6)
-                computer.playerHand[i] = deck[(i * 2) + 1];//(1-3-5-7)
+                player.playerHand[i] = deck[i*3];//(0-3-6-9)
+                computer.playerHand[i] = deck[(i * 3)+1];//(1-4-7-10)
+                board[i]=deck[(i*3)+2]; //(2-5-8-11)
         }
         deck = cards.moveCardsFromDeck(deck);
         deck = cards.moveCardsFromDeck(deck);
-        board = cards.moveCards(deck);
         deck = cards.moveCardsFromDeck(deck);
         while (cards.checkDeck(deck)) {//loop  if deck is not empty.
             if(player.playerHand.length==0 && computer.playerHand.length==0) {// check player hand and computer hand are empty or not
@@ -132,7 +132,19 @@ public  class Game {
     public void playComputer(){
         System.out.println("the computer is playing now...");
         Random random = new Random();
-        int number = random.nextInt(computer.playerHand.length);
+        boolean chosen=false;
+        int number = 0;
+        if(board!=null){
+        for (int i = 0; i <computer.playerHand.length ; i++) {
+            if (computer.playerHand[i].card.equalsIgnoreCase(board[board.length - 1].card) || computer.playerHand[i].card.equalsIgnoreCase("j")) {
+                chosen = true;
+                number = i;
+                break;
+            }
+        }
+        }if(!chosen) {
+            number = random.nextInt(computer.playerHand.length);
+        } 
         Cards card = computer.playerHand[number];
         Cards[] newCard = new Cards[computer.playerHand.length - 1];// crate new cards array and size is decremented because one card played.
         System.out.println("computer played " + card.symbol+card.card);// print the card which are played by computer.

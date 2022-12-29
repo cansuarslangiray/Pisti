@@ -86,12 +86,6 @@ public class Cards {
 
         return newCards;
     }
-    // pick first 4 cards from the given cards and returns.
-    public Cards[] moveCards(Cards[] cards){
-        Cards[] newCards= new Cards[4];
-        System.arraycopy(cards, 0, newCards, 0, 4);
-        return newCards;
-    }
     // remove the first 4 card from the given cards.
     public Cards[] moveCardsFromDeck(Cards[] cards){
         Cards[] newCards = new Cards[cards.length-4];
