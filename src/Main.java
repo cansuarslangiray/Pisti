@@ -13,7 +13,7 @@ public class Main {
             try {
                 System.out.println("Do you want to see score board ?(if your answer is yes, please enter 'scoreboard'.else, please enter 'no') ");
                 answer1 = sc.next();
-                if(answer1.equalsIgnoreCase("score board")){
+                if(answer1.equalsIgnoreCase("scoreboard")){
                     Player.displayScoreboard();
                 }
                 scoreBoard = false;

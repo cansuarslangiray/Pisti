@@ -1,5 +1,5 @@
 player's name:,score:
-vewv,64
+-,0
 -,0
 -,0
 -,0

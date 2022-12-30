@@ -32,6 +32,21 @@ public class Player {
         return score;
     }
     public static void readText(){
+        Formatter f = null;
+        try{
+            f = new Formatter("score.txt");
+            f.format("player's name:,score:");
+            for(int i=0;i<10;i++){
+                f.format("\n" + "%s,%s", "-", "0");
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            if(f!=null){
+                f.close();
+            }
+        }
         Scanner sc = null;
         try{
             sc = new Scanner(Paths.get("score.txt"));
@@ -72,7 +87,6 @@ public class Player {
             for(int i=0;i<10;i++){
                 f.format("\n" + "%s,%s", Game.scoreList[i].name, Game.scoreList[i].score);
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }finally {

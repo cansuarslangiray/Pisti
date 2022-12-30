@@ -94,6 +94,7 @@ public  class Game {
             System.out.println();
             System.out.println("player table.....................");
             player.printTable();
+            System.out.println();
             System.out.println("now game is end");
             System.out.println("game winner is......");
             if (computer.calculateScore() > player.calculateScore()) {
@@ -221,7 +222,7 @@ public  class Game {
             }
         }while (canSeeHands);
         boolean check = true;
-        System.out.println("which card do you want to play (\"♤ -> (Spades)\",\"♡ -> (Hearts)\",\"♢ -> (Diamonds)\",\"♧ -> (Clubs)\") ");
+        System.out.println("which card do you want to play (\"\u2660 -> (Spades)\",\"\u2665 -> (Hearts)\",\"\u2666 -> (Diamonds)\",\"\u2663 -> (Clubs)\") ");
         System.out.println("please enter type of cards and number: (leave a space between type and numbers)");
         do {
             try {
@@ -247,13 +248,13 @@ public  class Game {
             Cards[] newCard = new Cards[player.playerHand.length - 1];
             // turns the type given as a word into a symbol
             if (cardToPlay[0].equalsIgnoreCase("Spades")) {
-                cardToPlay[0] = "♤";
+                cardToPlay[0] = "\u2660";
             } else if (cardToPlay[0].equalsIgnoreCase("Hearts")) {
-                cardToPlay[0] = "♡";
+                cardToPlay[0] = "\u2665";
             } else if (cardToPlay[0].equalsIgnoreCase("Diamonds")) {
-                cardToPlay[0] = "♢";
+                cardToPlay[0] = "\u2666";
             } else if (cardToPlay[0].equalsIgnoreCase("Clubs")) {
-                cardToPlay[0] = "♧";
+                cardToPlay[0] = "\u2663";
             }else{
                 return false;
             }
