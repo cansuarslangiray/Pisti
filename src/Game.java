@@ -118,7 +118,12 @@ public  class Game {
         if (board != null) {
             System.out.println(board[board.length - 1].symbol+" " + board[board.length - 1].card);// print the last object of the board.
             for (int i = board.length-2; i >=0; i--) {
-                System.out.print(board[i].symbol +" "+board[i].card + "\t");// print the other board's object.
+                if(board[i].symbol.equalsIgnoreCase("Clubs")){
+                    System.out.print(board[i].symbol +" " +board[i].card + " " +"\t");//print the other board's object.
+
+                }else{
+                    System.out.print(board[i].symbol +" " +board[i].card + "\t");//print the other board's object.
+                }
             }
             System.out.println();
         }
