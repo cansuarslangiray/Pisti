@@ -17,12 +17,21 @@ public class Player {
     }
     public void printHand(){ // print the player hand.
         for (Cards cards : playerHand) {
-            System.out.println(cards.symbol + cards.card);
+            System.out.println(cards.symbol+" " + cards.card);
         }
     }
     public void printTable(){// print what the player gained.
-        for (Cards cards : playerTable) {
-            System.out.print(cards.symbol + cards.card + "\t");
+        for (int i=0;i<playerTable.length;i++) {
+            if(playerTable[i].symbol.equalsIgnoreCase("Clubs")){
+                System.out.print(playerTable[i].symbol +" " +playerTable[i].card + " " +"\t");
+
+            }else{
+                System.out.print(playerTable[i].symbol +" " +playerTable[i].card + "\t");
+            }
+
+            if(i%4==0){
+                System.out.println();
+            }
         }
     }
     public int calculateScore(){ // get the sum of the points of the cards that the player has collected and the points of the pisti the player has made.
@@ -34,15 +43,18 @@ public class Player {
     public static void readText(){
         Formatter f = null;
         try{
-            f = new Formatter("score.txt");
-            f.format("player's name:,score:");
-            for(int i=0;i<10;i++){
-                f.format("\n" + "%s,%s", "-", "0");
+            File file = new File("score.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+                f = new Formatter(file);
+                f.format("player's name:,score:");
+                for(int i=0;i<10;i++){
+                    f.format("\n" + "%s,%s", "-", "0");
+                }
             }
-
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if(f!=null){
                 f.close();
             }

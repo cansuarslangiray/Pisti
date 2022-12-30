@@ -5,19 +5,21 @@ import java.util.Scanner;
 public  class Game {
     static int computerNumber=1;
     public static Player[] scoreList = new Player[10];
-    Cards[] board = new Cards[4];
+    Cards[] board;
     Player player;
     Player computer;
     Scanner sc = new Scanner(System.in);
     // empty game constructor
     public Game(){
     }
-    Cards cards = new Cards();
-    Cards[] deck = cards.createDeck() ;
 
     public void play(){
+        Cards cards = new Cards();
+        Cards[] deck = cards.createDeck() ;
+        board = new Cards[4];
         Player.readText();
         computer = new Player("computer" + computerNumber);
+        deck = cards.shuffle(deck);// shuffle deck
         deck = cards.shuffle(deck);// shuffle deck
         beginningParts();
         String name = null;
@@ -112,16 +114,18 @@ public  class Game {
     public void printBoard() {
         System.out.println("the top card in the first row, the others show the bottom cards");
         System.out.println("cards on the table....");
+        System.out.println("----------");
         if (board != null) {
-            System.out.println(board[board.length - 1].symbol + board[board.length - 1].card);// print the last object of the board.
+            System.out.println(board[board.length - 1].symbol+" " + board[board.length - 1].card);// print the last object of the board.
             for (int i = board.length-2; i >=0; i--) {
-                System.out.print(board[i].symbol + board[i].card + "\t");// print the other board's object.
+                System.out.print(board[i].symbol +" "+board[i].card + "\t");// print the other board's object.
             }
             System.out.println();
         }
         else{
             System.out.println("table is empty now...");
         }
+        System.out.println("-------------");
     }
     // check the card has J or the given card's value same as on the board.
     public boolean isPişti(Cards cards ){
@@ -148,7 +152,7 @@ public  class Game {
         } 
         Cards card = computer.playerHand[number];
         Cards[] newCard = new Cards[computer.playerHand.length - 1];// crate new cards array and size is decremented because one card played.
-        System.out.println("computer played " + card.symbol+card.card);// print the card which are played by computer.
+        System.out.println("computer played " + card.symbol+" " +card.card);// print the card which are played by computer.
         if(isPişti(card)){
             System.out.println("computer did pişti...");
             computer.score+=10;
@@ -222,7 +226,6 @@ public  class Game {
             }
         }while (canSeeHands);
         boolean check = true;
-        System.out.println("which card do you want to play (\"\u2660 -> (Spades)\",\"\u2665 -> (Hearts)\",\"\u2666 -> (Diamonds)\",\"\u2663 -> (Clubs)\") ");
         System.out.println("please enter type of cards and number: (leave a space between type and numbers)");
         do {
             try {
@@ -246,19 +249,6 @@ public  class Game {
     public boolean checkTheCard(String[] cardToPlay) {
         if(cardToPlay.length==2) {
             Cards[] newCard = new Cards[player.playerHand.length - 1];
-            // turns the type given as a word into a symbol
-            if (cardToPlay[0].equalsIgnoreCase("Spades")) {
-                cardToPlay[0] = "\u2660";
-            } else if (cardToPlay[0].equalsIgnoreCase("Hearts")) {
-                cardToPlay[0] = "\u2665";
-            } else if (cardToPlay[0].equalsIgnoreCase("Diamonds")) {
-                cardToPlay[0] = "\u2666";
-            } else if (cardToPlay[0].equalsIgnoreCase("Clubs")) {
-                cardToPlay[0] = "\u2663";
-            }else{
-                return false;
-            }
-
             for (int i = 0; i < player.playerHand.length; i++) {
                 if (player.playerHand[i].symbol.equalsIgnoreCase(cardToPlay[0]) && player.playerHand[i].card.equalsIgnoreCase(cardToPlay[1])) {
                     if (isPişti(player.playerHand[i])) {

@@ -17,7 +17,7 @@ public class Cards {
     // create deck and the deck has 52 cards which have 4 type and each type have 13 different cards.
     public Cards[] createDeck(){
         Cards[] cards = new Cards[52];
-        String[] carsType= {"\u2663","\u2660","\u2665","\u2666"};
+        String[] carsType= {"Spades","Clubs","Hearts","Diamonds"};
         int index =0;
         for(int i=0; i<carsType.length;i++) {
             for (int j = 1; j <= 13; j++) {
