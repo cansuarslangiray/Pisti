@@ -311,14 +311,15 @@ public  class Game {
     }
     // some introduction lines.
     public void beginningParts(){
-        System.out.println("welcome the game :) ");
-        System.out.println("before the start game. we will tell some rules");
-        System.out.println("firstly, each player has 4 cards and 4 cards in the board but all player only see last card.");
-        System.out.println("First player start the game");
-        System.out.println("and then you check your card and try to find same card's value in the board");
-        System.out.println("if your card and board ara match you do pişti and you gain 10 puan. ");
-        System.out.println("if you do not the same card you have to add other card which you want.");
-        System.out.println("let's get start. you can learn while we playing");
+        System.out.println("welcome to the game :) ");
+        System.out.println("bBefore the game starts, here are the rules of the game");
+        System.out.println("Each player has four cards. There are four cards on the table as a stack," +
+                " and these cards are visible to the players.");
+        System.out.println("The player starts the game first.");
+        System.out.println("aThe player's goal is to do Pişti. " +
+                "Pişti happens when the player plays the card that has the same number as the top-most card on the table.");
+        System.out.println("For each Pişti, player gains 10 points. The player with the highest score wins. ");
+        System.out.println("Let's start.");
 
     }
 }
