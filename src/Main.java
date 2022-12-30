@@ -32,15 +32,20 @@ public class Main {
                 try {
                     System.out.println("Do you want to play again: (if your answer is yes, please enter 'yes'.else, please enter 'no') ");
                     answer = sc.next();
-                    playAgain = false;
+                    if(answer.equalsIgnoreCase("no")){
+                        playAgain = false;
+                        playAgain1=false;
+                        System.exit(0);
+                    }
+                    else if(answer.equalsIgnoreCase("yes")){
+                        playAgain=false;
+                    }
                 } catch (InputMismatchException e) {
                     System.out.println("please enter yes or no");
                     sc.next();
                 }
             } while (playAgain);
-            if (answer.equalsIgnoreCase("no")) {
-                System.exit(0);
-            }
+
         }
     }
 }
